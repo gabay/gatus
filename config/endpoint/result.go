@@ -13,6 +13,9 @@ type Result struct {
 	//
 	// Possible values: NOERROR, FORMERR, SERVFAIL, NXDOMAIN, NOTIMP, REFUSED
 	DNSRCode string `json:"-"`
+	
+	// Result of external IP lookup
+	MyIP []byte `json:"-"`
 
 	// Hostname extracted from Endpoint.URL
 	Hostname string `json:"hostname,omitempty"`

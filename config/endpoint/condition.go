@@ -27,6 +27,9 @@ const (
 	//
 	// Values that could replace the placeholder: NOERROR, FORMERR, SERVFAIL, NXDOMAIN, NOTIMP, REFUSED
 	DNSRCodePlaceholder = "[DNS_RCODE]"
+	
+	// MyIPPlaceHolder is a placeholder for external IP.
+	MyIPPlaceholder = "[MY_IP]"
 
 	// ResponseTimePlaceholder is a placeholder for the request response time, in milliseconds.
 	//
@@ -174,6 +177,12 @@ func (c Condition) hasIPPlaceholder() bool {
 	return strings.Contains(string(c), IPPlaceholder)
 }
 
+// hasMyIPPlaceholder checks whether the condition has a MyIPPlaceholder
+// Used for determining whether my IP lookup is necessary
+func (c Condition) hasMyIPPlaceholder() bool {
+	return strings.Contains(string(c), MyIPPlaceholder)
+}
+
 // isEqual compares two strings.
 //
 // Supports the "pat" and the "any" functions.
@@ -255,6 +264,8 @@ func sanitizeAndResolve(elements []string, result *Result) ([]string, []string) 
 			element = body
 		case DNSRCodePlaceholder:
 			element = result.DNSRCode
+		case MyIPPlaceholder:
+			element = string(result.MyIP)
 		case ConnectedPlaceholder:
 			element = strconv.FormatBool(result.Connected)
 		case CertificateExpirationPlaceholder:
